@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -6,7 +6,7 @@
 
 @layer base {
   * {
-    font-family: 'Quicksand', sans-serif;
+    font-family: "Quicksand", sans-serif;
     box-sizing: border-box;
   }
 
@@ -30,7 +30,6 @@
 }
 
 @layer components {
-
   /* ── Layout ── */
   .sidebar-link {
     @apply flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm

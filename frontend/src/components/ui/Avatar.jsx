@@ -21,9 +21,7 @@ export default function Avatar({ name, size = "md", color = "bg-navy" }) {
       className={`${sizes[size]} ${color} rounded-full flex items-center
                   justify-center text-white font-bold shrink-0`}
     >
-      {initial ?? (
-        <FontAwesomeIcon icon={faUser} className="text-white" />
-      )}
+      {initial ?? <FontAwesomeIcon icon={faUser} className="text-white" />}
     </div>
   );
 }

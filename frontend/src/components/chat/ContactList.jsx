@@ -9,12 +9,11 @@ export default function ContactList({ contacts, activeId, onSelect }) {
   const [search, setSearch] = useState("");
 
   const filtered = contacts.filter((c) =>
-    c.name.toLowerCase().includes(search.toLowerCase())
+    c.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
     <div className="w-72 shrink-0 bg-navy-dark flex flex-col h-full">
-
       {/* ── Header ── */}
       <div className="px-5 pt-6 pb-4">
         <h2 className="text-white font-bold text-base mb-4">
@@ -51,17 +50,15 @@ export default function ContactList({ contacts, activeId, onSelect }) {
               onClick={() => onSelect(contact)}
               className={`w-full flex items-center gap-3 px-3 py-3
                           rounded-xl mb-1 text-left transition-all
-                          ${isActive
-                            ? "bg-gold"
-                            : "hover:bg-white/10"}`}
+                          ${isActive ? "bg-gold" : "hover:bg-white/10"}`}
             >
               {/* Avatar ou icône globale */}
               {contact.isGlobal ? (
-                <div className="w-9 h-9 rounded-full bg-navy
-                                flex items-center justify-center shrink-0">
-                  <span className="text-gold font-bold text-xs">
-                    HEI
-                  </span>
+                <div
+                  className="w-9 h-9 rounded-full bg-navy
+                                flex items-center justify-center shrink-0"
+                >
+                  <span className="text-gold font-bold text-xs">HEI</span>
                 </div>
               ) : (
                 <Avatar
@@ -82,9 +79,7 @@ export default function ContactList({ contacts, activeId, onSelect }) {
                 {contact.role && (
                   <span
                     className={`text-xs capitalize
-                                ${isActive
-                                  ? "text-navy/60"
-                                  : "text-white/40"}`}
+                                ${isActive ? "text-navy/60" : "text-white/40"}`}
                   >
                     {contact.role === "teacher" ? "Professeur" : "Étudiant"}
                   </span>
@@ -106,7 +101,6 @@ export default function ContactList({ contacts, activeId, onSelect }) {
           <FontAwesomeIcon icon={faPlus} />
         </button>
       </div>
-
     </div>
   );
 }

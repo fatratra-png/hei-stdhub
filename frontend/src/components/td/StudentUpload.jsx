@@ -9,28 +9,34 @@ import {
 import { useAuth } from "../../context/AuthContext";
 
 const GROUPS = {
-  L1: ["N1","N2","N3","N4"],
-  L2: ["K1","K2","K3"],
-  L3: ["J1","J2"],
+  L1: ["N1", "N2", "N3", "N4"],
+  L2: ["K1", "K2", "K3"],
+  L3: ["J1", "J2"],
 };
 
 const EMPTY = {
-  nom: "", prenom: "", email: "",
-  ref: "", level: "L1", groupe: "N1",
-  type: "TD", file: null, link: "",
+  nom: "",
+  prenom: "",
+  email: "",
+  ref: "",
+  level: "L1",
+  groupe: "N1",
+  type: "TD",
+  file: null,
+  link: "",
 };
 
 export default function StudentUpload() {
   const { user } = useAuth();
 
-  const [form,      setForm]      = useState({
+  const [form, setForm] = useState({
     ...EMPTY,
     email: user?.email || "",
-    ref:   user?.ref   || "",
+    ref: user?.ref || "",
   });
-  const [dragOver,  setDragOver]  = useState(false);
+  const [dragOver, setDragOver] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [error,     setError]     = useState("");
+  const [error, setError] = useState("");
 
   const set = (key, val) => setForm((f) => ({ ...f, [key]: val }));
 
@@ -50,10 +56,10 @@ export default function StudentUpload() {
 
   /* ── Validation ── */
   const validate = () => {
-    if (!form.nom.trim())    return "Le nom est requis.";
+    if (!form.nom.trim()) return "Le nom est requis.";
     if (!form.prenom.trim()) return "Le prénom est requis.";
-    if (!form.email.trim())  return "L'email est requis.";
-    if (!form.ref.trim())    return "La référence STD est requise.";
+    if (!form.email.trim()) return "L'email est requis.";
+    if (!form.ref.trim()) return "La référence STD est requise.";
     if (!form.file && !form.link.trim())
       return "Veuillez déposer un fichier ou coller un lien.";
     return null;
@@ -63,7 +69,10 @@ export default function StudentUpload() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const err = validate();
-    if (err) { setError(err); return; }
+    if (err) {
+      setError(err);
+      return;
+    }
     setError("");
     // TODO : POST /api/submissions
     setSubmitted(true);
@@ -72,7 +81,7 @@ export default function StudentUpload() {
       setForm({
         ...EMPTY,
         email: user?.email || "",
-        ref:   user?.ref   || "",
+        ref: user?.ref || "",
       });
     }, 3000);
   };
@@ -80,8 +89,10 @@ export default function StudentUpload() {
   /* ── Succès ── */
   if (submitted) {
     return (
-      <div className="flex flex-col items-center justify-center
-                      h-full text-center py-24">
+      <div
+        className="flex flex-col items-center justify-center
+                      h-full text-center py-24"
+      >
         <FontAwesomeIcon
           icon={faCheckCircle}
           className="text-6xl text-green-400 mb-4"
@@ -89,30 +100,30 @@ export default function StudentUpload() {
         <h2 className="text-xl font-bold text-navy mb-2">
           Rendu soumis avec succès !
         </h2>
-        <p className="text-gray-400 text-sm">
-          Vous allez être redirigé...
-        </p>
+        <p className="text-gray-400 text-sm">Vous allez être redirigé...</p>
       </div>
     );
   }
 
   return (
     <div className="flex gap-8 h-full">
-
       {/* ── Zone de dépôt ── */}
       <div
         className={`flex-1 flex flex-col items-center justify-center
                     rounded-2xl border-2 border-dashed cursor-pointer
                     transition min-h-64
-                    ${dragOver
-                      ? "border-gold bg-gold/5"
-                      : "border-contact bg-white hover:border-navy/40"}`}
-        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+                    ${
+                      dragOver
+                        ? "border-gold bg-gold/5"
+                        : "border-contact bg-white hover:border-navy/40"
+                    }`}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragOver(true);
+        }}
         onDragLeave={() => setDragOver(false)}
         onDrop={handleDrop}
-        onClick={() =>
-          document.getElementById("student-file").click()
-        }
+        onClick={() => document.getElementById("student-file").click()}
       >
         <FontAwesomeIcon
           icon={faCloudUploadAlt}
@@ -122,9 +133,7 @@ export default function StudentUpload() {
 
         {form.file ? (
           <>
-            <p className="font-bold text-navy text-sm">
-              {form.file.name}
-            </p>
+            <p className="font-bold text-navy text-sm">{form.file.name}</p>
             <p className="text-xs text-gray-400 mt-1">
               {(form.file.size / 1024 / 1024).toFixed(2)} Mo
             </p>
@@ -169,23 +178,23 @@ export default function StudentUpload() {
       </div>
 
       {/* ── Formulaire ── */}
-      <form
-        onSubmit={handleSubmit}
-        className="flex-1 flex flex-col gap-3"
-      >
-
+      <form onSubmit={handleSubmit} className="flex-1 flex flex-col gap-3">
         {/* Erreur */}
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-600
-                          text-sm px-4 py-2 rounded-xl">
+          <div
+            className="bg-red-50 border border-red-200 text-red-600
+                          text-sm px-4 py-2 rounded-xl"
+          >
             {error}
           </div>
         )}
 
         {/* Nom */}
         <div>
-          <label className="text-xs font-bold text-gray-500 mb-1
-                            block uppercase tracking-wide">
+          <label
+            className="text-xs font-bold text-gray-500 mb-1
+                            block uppercase tracking-wide"
+          >
             Nom *
           </label>
           <input
@@ -198,8 +207,10 @@ export default function StudentUpload() {
 
         {/* Prénom */}
         <div>
-          <label className="text-xs font-bold text-gray-500 mb-1
-                            block uppercase tracking-wide">
+          <label
+            className="text-xs font-bold text-gray-500 mb-1
+                            block uppercase tracking-wide"
+          >
             Prénom *
           </label>
           <input
@@ -212,8 +223,10 @@ export default function StudentUpload() {
 
         {/* Email */}
         <div>
-          <label className="text-xs font-bold text-gray-500 mb-1
-                            block uppercase tracking-wide">
+          <label
+            className="text-xs font-bold text-gray-500 mb-1
+                            block uppercase tracking-wide"
+          >
             Email *
           </label>
           <input
@@ -227,8 +240,10 @@ export default function StudentUpload() {
 
         {/* Référence STD */}
         <div>
-          <label className="text-xs font-bold text-gray-500 mb-1
-                            block uppercase tracking-wide">
+          <label
+            className="text-xs font-bold text-gray-500 mb-1
+                            block uppercase tracking-wide"
+          >
             Référence STD *
           </label>
           <input
@@ -242,15 +257,17 @@ export default function StudentUpload() {
         {/* Niveau + Groupe + Type */}
         <div className="flex gap-2">
           <div className="flex-1">
-            <label className="text-xs font-bold text-gray-500 mb-1
-                              block uppercase tracking-wide">
+            <label
+              className="text-xs font-bold text-gray-500 mb-1
+                              block uppercase tracking-wide"
+            >
               Niveau
             </label>
             <select
               className="input-field"
               value={form.level}
               onChange={(e) => {
-                set("level",  e.target.value);
+                set("level", e.target.value);
                 set("groupe", GROUPS[e.target.value][0]);
               }}
             >
@@ -261,8 +278,10 @@ export default function StudentUpload() {
           </div>
 
           <div className="flex-1">
-            <label className="text-xs font-bold text-gray-500 mb-1
-                              block uppercase tracking-wide">
+            <label
+              className="text-xs font-bold text-gray-500 mb-1
+                              block uppercase tracking-wide"
+            >
               Groupe
             </label>
             <select
@@ -277,8 +296,10 @@ export default function StudentUpload() {
           </div>
 
           <div className="flex-1">
-            <label className="text-xs font-bold text-gray-500 mb-1
-                              block uppercase tracking-wide">
+            <label
+              className="text-xs font-bold text-gray-500 mb-1
+                              block uppercase tracking-wide"
+            >
               Type
             </label>
             <select
@@ -322,7 +343,7 @@ export default function StudentUpload() {
               setForm({
                 ...EMPTY,
                 email: user?.email || "",
-                ref:   user?.ref   || "",
+                ref: user?.ref || "",
               })
             }
             className="flex-1 btn-danger"
@@ -333,7 +354,6 @@ export default function StudentUpload() {
             Soumettre
           </button>
         </div>
-
       </form>
     </div>
   );

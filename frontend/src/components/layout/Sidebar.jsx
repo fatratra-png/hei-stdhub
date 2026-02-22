@@ -11,10 +11,10 @@ import { useAuth } from "../../context/AuthContext";
 import { HEI_WHITE_LOGO } from "../../assets/logos";
 
 const NAV_LINKS = [
-  { to: "/",         label: "Accueil",           icon: faHouse,    end: true  },
-  { to: "/archives", label: "Archives de cours",  icon: faBookOpen, end: false },
-  { to: "/td",       label: "TD/Examen",          icon: faFileAlt,  end: false },
-  { to: "/chat",     label: "Chat",               icon: faComments, end: false },
+  { to: "/", label: "Accueil", icon: faHouse, end: true },
+  { to: "/archives", label: "Archives de cours", icon: faBookOpen, end: false },
+  { to: "/td", label: "TD/Examen", icon: faFileAlt, end: false },
+  { to: "/chat", label: "Chat", icon: faComments, end: false },
 ];
 
 export default function Sidebar() {
@@ -28,7 +28,6 @@ export default function Sidebar() {
 
   return (
     <aside className="w-60 min-h-screen bg-navy flex flex-col py-6 px-4 shrink-0">
-
       {/* ── Logo ── */}
       <div className="flex items-center gap-3 px-2 mb-10">
         <img
@@ -75,7 +74,6 @@ export default function Sidebar() {
           <span>Déconnexion</span>
         </button>
       </div>
-
     </aside>
   );
 }
