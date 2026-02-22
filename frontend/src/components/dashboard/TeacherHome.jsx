@@ -11,18 +11,33 @@ import Navbar from "../layout/Navbar";
 import Badge from "../ui/Badge";
 
 const TYPES = [
-  { value: "cours",  label: "Cours simple" },
-  { value: "td",     label: "TD"           },
-  { value: "examen", label: "Examen"       },
+  { value: "cours", label: "Cours simple" },
+  { value: "td", label: "TD" },
+  { value: "examen", label: "Examen" },
 ];
 
 const UE_LIST = [
-  "WEB1","WEB2","WEB3",
-  "PROG1","PROG2-POO","PROG2-API","PROG3","PROG4","PROG5",
-  "SYS1","SYS2","SYS3",
-  "DONNEES1","DONNEES2",
-  "THEORIE1-P1","THEORIE1-P2",
-  "MGT2","IA1","MOB1","SECU1","SECU2",
+  "WEB1",
+  "WEB2",
+  "WEB3",
+  "PROG1",
+  "PROG2-POO",
+  "PROG2-API",
+  "PROG3",
+  "PROG4",
+  "PROG5",
+  "SYS1",
+  "SYS2",
+  "SYS3",
+  "DONNEES1",
+  "DONNEES2",
+  "THEORIE1-P1",
+  "THEORIE1-P2",
+  "MGT2",
+  "IA1",
+  "MOB1",
+  "SECU1",
+  "SECU2",
 ];
 
 const EMPTY = {
@@ -35,13 +50,12 @@ const EMPTY = {
 };
 
 export default function TeacherHome() {
-  const [posts,    setPosts]    = useState([]);
-  const [form,     setForm]     = useState(EMPTY);
+  const [posts, setPosts] = useState([]);
+  const [form, setForm] = useState(EMPTY);
   const [showForm, setShowForm] = useState(false);
   const [dragOver, setDragOver] = useState(false);
 
-  const set = (key, val) =>
-    setForm((prev) => ({ ...prev, [key]: val }));
+  const set = (key, val) => setForm((prev) => ({ ...prev, [key]: val }));
 
   const handlePublish = (e) => {
     e.preventDefault();
@@ -49,7 +63,7 @@ export default function TeacherHome() {
     setPosts((prev) => [
       {
         ...form,
-        id:   Date.now(),
+        id: Date.now(),
         date: new Date().toLocaleString("fr-FR"),
       },
       ...prev,
@@ -75,12 +89,22 @@ export default function TeacherHome() {
   };
 
   const getTypeBtnClass = (value) => {
-    const base = "px-4 py-1.5 rounded-full text-sm font-semibold border transition";
+    const base =
+      "px-4 py-1.5 rounded-full text-sm font-semibold border transition";
     const isActive = form.type === value;
     const ring = isActive ? " ring-2 ring-offset-2 ring-navy/30 scale-105" : "";
-    if (value === "cours")  return base + " border-gray-300 text-gray-600 hover:bg-gray-50" + ring;
-    if (value === "td")     return base + " bg-cyan-100 text-cyan-700 border-cyan-200 hover:bg-cyan-200" + ring;
-    if (value === "examen") return base + " bg-red-100 text-red-600 border-red-200 hover:bg-red-200" + ring;
+    if (value === "cours")
+      return base + " border-gray-300 text-gray-600 hover:bg-gray-50" + ring;
+    if (value === "td")
+      return (
+        base +
+        " bg-cyan-100 text-cyan-700 border-cyan-200 hover:bg-cyan-200" +
+        ring
+      );
+    if (value === "examen")
+      return (
+        base + " bg-red-100 text-red-600 border-red-200 hover:bg-red-200" + ring
+      );
     return base;
   };
 
@@ -89,7 +113,6 @@ export default function TeacherHome() {
       <Navbar />
 
       <div className="flex-1 p-8 overflow-y-auto">
-
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -114,7 +137,6 @@ export default function TeacherHome() {
               Publier un contenu
             </h2>
             <form onSubmit={handlePublish}>
-
               {/* Titre + UE */}
               <div className="flex gap-4 mb-4">
                 <div className="flex-1">
@@ -141,7 +163,9 @@ export default function TeacherHome() {
                   >
                     <option value="">— Choisir —</option>
                     {UE_LIST.map((u) => (
-                      <option key={u} value={u}>{u}</option>
+                      <option key={u} value={u}>
+                        {u}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -187,19 +211,28 @@ export default function TeacherHome() {
                 <div
                   className={
                     "border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition " +
-                    (dragOver ? "border-gold bg-gold/5" : "border-contact hover:border-navy/40")
+                    (dragOver
+                      ? "border-gold bg-gold/5"
+                      : "border-contact hover:border-navy/40")
                   }
-                  onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setDragOver(true);
+                  }}
                   onDragLeave={() => setDragOver(false)}
                   onDrop={handleDrop}
-                  onClick={() => document.getElementById("teacher-file-input").click()}
+                  onClick={() =>
+                    document.getElementById("teacher-file-input").click()
+                  }
                 >
                   <FontAwesomeIcon
                     icon={faCloudUploadAlt}
                     className="text-3xl text-gray-300 mb-2"
                   />
                   {form.file ? (
-                    <p className="text-sm font-semibold text-navy">{form.file.name}</p>
+                    <p className="text-sm font-semibold text-navy">
+                      {form.file.name}
+                    </p>
                   ) : (
                     <p className="text-sm text-gray-400">
                       Glisser-déposer ou cliquer pour parcourir
@@ -217,7 +250,9 @@ export default function TeacherHome() {
               {/* Séparateur */}
               <div className="flex items-center gap-3 mb-4">
                 <hr className="flex-1 border-contact" />
-                <span className="text-xs font-bold text-gray-400 uppercase">OU</span>
+                <span className="text-xs font-bold text-gray-400 uppercase">
+                  OU
+                </span>
                 <hr className="flex-1 border-contact" />
               </div>
 
@@ -239,7 +274,10 @@ export default function TeacherHome() {
               <div className="flex justify-end gap-3">
                 <button
                   type="button"
-                  onClick={() => { setShowForm(false); setForm(EMPTY); }}
+                  onClick={() => {
+                    setShowForm(false);
+                    setForm(EMPTY);
+                  }}
                   className="px-5 py-2 rounded-full text-sm font-semibold bg-surface hover:bg-contact transition"
                 >
                   Annuler
@@ -248,7 +286,6 @@ export default function TeacherHome() {
                   Publier
                 </button>
               </div>
-
             </form>
           </div>
         )}
@@ -308,7 +345,6 @@ export default function TeacherHome() {
             </div>
           ))}
         </div>
-
       </div>
     </div>
   );
