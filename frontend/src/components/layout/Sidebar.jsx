@@ -1,49 +1,81 @@
-import { NavLink } from 'react-router-dom'
-import { Home, BookOpen, FileText, MessageCircle } from 'lucide-react'
-import { useAuth } from '../../hooks/useAuth'
+import { NavLink, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHouse,
+  faBookOpen,
+  faFileAlt,
+  faComments,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../../context/AuthContext";
+import { HEI_WHITE_LOGO } from "../../assets/logos";
+
+const NAV_LINKS = [
+  { to: "/",         label: "Accueil",           icon: faHouse,    end: true  },
+  { to: "/archives", label: "Archives de cours",  icon: faBookOpen, end: false },
+  { to: "/td",       label: "TD/Examen",          icon: faFileAlt,  end: false },
+  { to: "/chat",     label: "Chat",               icon: faComments, end: false },
+];
 
 export default function Sidebar() {
-  const { user } = useAuth()
-  const base = user?.role === 'teacher' ? '/teacher' : '/student'
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
-  const links = [
-    { to: `${base}/home`, icon: <Home size={20} />, label: 'Accueil' },
-    { to: `${base}/archives`, icon: <BookOpen size={20} />, label: 'Archives de cours' },
-    { to: `${base}/td`, icon: <FileText size={20} />, label: 'TD/Examen' },
-    { to: `${base}/chat`, icon: <MessageCircle size={20} />, label: 'Chat' },
-  ]
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
-    <aside className="w-64 bg-[#1B2A4A] min-h-screen flex flex-col pt-4">
-      {/* Logo */}
-      <div className="px-6 py-4 border-b border-white/10 mb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gold rounded-lg flex items-center justify-center font-bold text-navy text-sm">
-            HEI
-          </div>
-          <span className="text-white font-semibold text-lg">STDhub</span>
-        </div>
+    <aside className="w-60 min-h-screen bg-navy flex flex-col py-6 px-4 shrink-0">
+
+      {/* ── Logo ── */}
+      <div className="flex items-center gap-3 px-2 mb-10">
+        <img
+          src={HEI_WHITE_LOGO}
+          alt="HEI Logo"
+          className="h-8 w-8 object-contain"
+        />
+        <span className="text-white font-bold text-base leading-tight">
+          HEI STDhub
+        </span>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 px-3">
-        {links.map((link) => (
+      {/* ── Navigation ── */}
+      <nav className="flex flex-col gap-1 flex-1">
+        {NAV_LINKS.map(({ to, label, icon, end }) => (
           <NavLink
-            key={link.to}
-            to={link.to}
+            key={to}
+            to={to}
+            end={end}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-xl mb-1 transition-all text-sm font-medium ${
-                isActive
-                  ? 'bg-[#F5C518] text-[#1B2A4A]'
-                  : 'text-white/70 hover:bg-white/10 hover:text-white'
-              }`
+              isActive ? "sidebar-link-active" : "sidebar-link"
             }
           >
-            {link.icon}
-            {link.label}
+            <FontAwesomeIcon icon={icon} className="w-4 h-4 shrink-0" />
+            <span>{label}</span>
           </NavLink>
         ))}
       </nav>
+
+      {/* ── Infos utilisateur + Déconnexion ── */}
+      <div className="border-t border-white/10 pt-4 mt-4">
+        <p className="text-white/40 text-xs px-2 mb-1 uppercase tracking-widest">
+          {user?.role === "teacher" ? "Professeur" : "Étudiant"}
+        </p>
+        <p className="text-white font-semibold text-sm px-2 mb-3 truncate">
+          {user?.ref || user?.name || "—"}
+        </p>
+        <button
+          onClick={handleLogout}
+          className="sidebar-link w-full text-red-300 hover:text-red-200
+                     hover:bg-red-500/10"
+        >
+          <FontAwesomeIcon icon={faRightFromBracket} className="w-4 h-4" />
+          <span>Déconnexion</span>
+        </button>
+      </div>
+
     </aside>
-  )
+  );
 }

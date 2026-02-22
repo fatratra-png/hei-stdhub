@@ -1,33 +1,28 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
         navy: {
-          DEFAULT: '#1B2A4A',
-          dark: '#0f1e35',
-          light: '#243356',
+          DEFAULT: "#001948",
+          dark: "#0A1A33",
         },
         gold: {
-          DEFAULT: '#F5C518',
-          dark: '#d4a914',
-          light: '#ffd740',
+          DEFAULT: "#DFA408",
+          light: "#F2C94C",
         },
-        cyan: {
-          td: '#00BCD4',
-        },
-        exam: {
-          red: '#E53935',
-        }
+        surface: "#F2F4F8",
+        contact: "#D9DCE3",
       },
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
-      }
+        quicksand: ["Quicksand", "sans-serif"],
+      },
+      boxShadow: {
+        card: "0 2px 12px 0 rgba(0,25,72,0.08)",
+        modal: "0 8px 32px 0 rgba(0,25,72,0.16)",
+      },
     },
   },
   plugins: [],
-}
+};

@@ -1,57 +1,30 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext'
-import { useAuth } from './hooks/useAuth'
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
+import LoginPage    from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import HomePage     from "./pages/HomePage";
+import ArchivesPage from "./pages/ArchivesPage";
+import TDPage       from "./pages/TDPage";
+import ChatPage     from "./pages/ChatPage";
 
-// Auth pages
-import Login from './pages/auth/Login'
-import Register from './pages/auth/Register'
-
-// Student pages
-import StudentHome from './pages/student/StudentHome'
-import StudentArchives from './pages/student/StudentArchives'
-import StudentTD from './pages/student/StudentTD'
-import StudentChat from './pages/student/StudentChat'
-
-// Teacher pages
-import TeacherHome from './pages/teacher/TeacherHome'
-import TeacherArchives from './pages/teacher/TeacherArchives'
-import TeacherTD from './pages/teacher/TeacherTD'
-import TeacherChat from './pages/teacher/TeacherChat'
-
-const ProtectedRoute = ({ children, role }) => {
-  const { user } = useAuth()
-  if (!user) return <Navigate to="/login" />
-  if (role && user.role !== role) return <Navigate to="/login" />
-  return children
+function ProtectedRoute({ children }) {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" replace />;
+  return children;
 }
 
-function App() {
+export default function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* Auth */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+    <Routes>
+      <Route path="/login"    element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
-          {/* Student */}
-          <Route path="/student/home" element={<ProtectedRoute role="student"><StudentHome /></ProtectedRoute>} />
-          <Route path="/student/archives" element={<ProtectedRoute role="student"><StudentArchives /></ProtectedRoute>} />
-          <Route path="/student/td" element={<ProtectedRoute role="student"><StudentTD /></ProtectedRoute>} />
-          <Route path="/student/chat" element={<ProtectedRoute role="student"><StudentChat /></ProtectedRoute>} />
+      <Route path="/"         element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+      <Route path="/archives" element={<ProtectedRoute><ArchivesPage /></ProtectedRoute>} />
+      <Route path="/td"       element={<ProtectedRoute><TDPage /></ProtectedRoute>} />
+      <Route path="/chat"     element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
 
-          {/* Teacher */}
-          <Route path="/teacher/home" element={<ProtectedRoute role="teacher"><TeacherHome /></ProtectedRoute>} />
-          <Route path="/teacher/archives" element={<ProtectedRoute role="teacher"><TeacherArchives /></ProtectedRoute>} />
-          <Route path="/teacher/td" element={<ProtectedRoute role="teacher"><TeacherTD /></ProtectedRoute>} />
-          <Route path="/teacher/chat" element={<ProtectedRoute role="teacher"><TeacherChat /></ProtectedRoute>} />
-
-          {/* Default redirect */}
-          <Route path="/" element={<Navigate to="/login" />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
-  )
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
 }
-
-export default App
